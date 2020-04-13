@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <title>Hello, world!</title>
+    <style>
+        .navbarSpacer {
+            height: 56px;
+        }
+
+        #scrollDiv {
+            /*When spying on elements other than the <body>, be sure to have a height set and overflow-y: scroll; applied.*/
+            height: 100vh;
+            overflow-y: scroll;
+        }
+    </style>
+</head>
+
+<body>
+    <nav id="navbar-example2 " class="navbar navbar-dark bg-dark sticky-top">
+        <a class="navbar-brand " href="#">Desafio McDonalds</a>
+        <ul class="nav nav-pills">
+            <li class="nav-item">
+                <a class="nav-link" href="#newOrder">Add Order</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#kitchenService">Kitchen Services</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#orderStatus">Order Status</a>
+            </li>
+        </ul>
+    </nav>
+
+    <div data-spy="scroll" data-target="#navbar-example2" data-offset="0">
+
+        <!-- Container -->
+
+        <div class="container container-fluid vh-100" id="newOrder">
+            <div class="mx-auto" style="height: 80px;">
+            </div>
+            <!-- Serve para criar um espaço antes do titulo de modo a que quando se carrega na tab, o titulo nao ficar tapado-->
+            <h4>Novo Pedido</h4>
+
+            <p>Nome do Cliente: </p>
+
+            <div class="row">
+                <div class="col">
+                    <!-- Nome Cliente -->
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Nome</span>
+                        </div>
+                        <input id="clientName" type="text" class="form-control" aria-label="Small"
+                            aria-describedby="inputGroup-sizing-sm">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-8">
+                    <div class="row">
+                        <div class="col-8">
+                            <!-- Categoria -->
+                            <p>Artigo:</p>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="inputGroupSelect01">Categoria</label>
+                                </div>
+                                <select class="custom-select" id="orderCategory">>
+                                    <!--<option selected>Choose...</option> -->
+                                    <option value="Sandes">Sandes</option>
+                                    <option value="Bebida">Bebida</option>
+                                    <option value="Acompanhamento">Acompanhamento</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-4">
+                            <!-- Produto -->
+                            <p class="invisible">Spacer</p>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="inputGroupSelect02">Produto</label>
+                                </div>
+                                <select class="custom-select" id="orderProduct">
+                                    <!--   <option value="1">One</option> -->
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-4">
+                    <!-- Adicionar Produto -->
+                    <p class="invisible">Spacer</p>
+                    <button id="addProduct" onclick="addProduct()" type="button"
+                        class="btn btn-primary btn-lg btn-block">Adicionar
+                        Produto</button>
+                </div>
+            </div>
+
+            <div class="row col-12">
+                <!-- Pedido Especial -->
+                <p>Pedido Especial:</p>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="inputGroupSelect02">Extra</label>
+                    </div>
+                    <select class="custom-select" id="orderExtra">
+                        <option value="None">None</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="row col-12">
+                <!-- Display Pedidos -->
+                <div class="col-12">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col-md-2">Delete</th>
+                                <th scope="col-md-5">Artigo</th>
+                                <th scope="col-md-5">Extra</th>
+                            </tr>
+                        </thead>
+                        <tbody id="newProduct">
+                            <tr>
+                            </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Finalizar Pedido -->
+
+            <div class="row col-12">
+
+                <button id="addOrder" onclick="addOrder()" type="button"
+                    class="btn btn-primary btn-lg btn-block">Finalizar
+                    Pedido</button>
+
+            </div>
+
+        </div> <!-- Fim container -->
+
+    </div>
+    </div>
+
+    <div class="container container-fluid vh-100" id="kitchenService">
+        <div class="mx-auto" style="height: 80px;">
+        </div>
+        <!-- Serve para criar um espaço antes do titulo de modo a que quando se carrega na tab, o titulo nao ficar tapado-->
+        <h4 id="kitchenService">Kitchen Service</h4>
+
+        <!-- Todos , Extras ----------------------------------------------------------------------->
+
+        <div class="container container-fluid" id="kitchenOrders">
+            <p class="invisible">Spacer</p>
+            <div class="row col-12">
+                <div class="col-4">
+                    <button type="allButton" onclick="updateKitchen('all')" id="allButton"
+                        class="btn btn-primary btn-lg btn-block">Todos</button>
+
+                </div>
+                <div class="col-4">
+                    <button type="extraButton" onclick="updateKitchen('extra')" id="extraButton"
+                        class="btn btn-primary btn-lg btn-block">Com
+                        Extra</button>
+
+                </div>
+                <div class="col-4">
+                    <button type="normalButton" onclick="updateKitchen('normal')" id="normalButton"
+                        class="btn btn-primary btn-lg btn-block">Sem
+                        Extra</button>
+
+                </div>
+            </div>
+
+            <p class="invisible">Spacer</p>
+            <div id="kitchenDiv">
+                <div class="row col-12">
+                    <b id="orderId">Id do Pedido : </b>
+                </div>
+                <p></p>
+                <div class="row col-12">
+                    <b id="orderName">Nome do Cliente : </b>
+                </div>
+                <p></p>
+                <div class="row col-12">
+                    <!-- Display Pedidos -->
+                    <table id="kitchenTable" class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Artigo</th>
+                                <th scope="col">Extra</th>
+
+                            </tr>
+                        </thead>
+                        <tbody id="kitchenBody">
+                            <tr>
+                                <td>Empty</td>
+                                <td>Empty</td>
+                            </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Display Pedidos -->
+
+            <div class="row, text-center">
+                <button type="button" id="orderReady" onclick="orderReady()" class="btn btn-primary btn-lg">Pedido
+                    Concluído</button>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="container container-fluid vh-100" id="orderStatus">
+        <div class="mx-auto" style="height: 80px;">
+        </div>
+        <h4>Order Status</h4>
+
+        <div class="row col-12">
+
+            <p class="invisible">Spacer</p>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="inputGroupSelect01">Filtro</label>
+                </div>
+                <select class="custom-select" id="filterOrderStatus">
+                    <option value="all">Todos</option>
+                    <option value="extra">Extra</option>
+                    <option value="normal">Sem Extras</option>
+                </select>
+            </div>
+
+            <div class="row col-12">
+                <!-- Display Pedidos -->
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Artigo</th>
+                            <th scope="col">Extra</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyOrderStatus">
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+    <script src="classes.js"></script>
+    <script src="sampleData.js"></script>
+    <script src="OrderPagev4.js"></script>
+
+</body>
+
+</html>
+
+
+<!-- Main Script -->
+
+<script>
+
+    let firstRun = false;
+    let name = [];
+    let prod = [];
+    let prodList = new Order(); // o prodList devia-se chamar order
+    let activeOrderExtra = [];
+    let activeOrderNormal = [];
+    let activeOrder = [];
+    let order = [];
+    let product = [];
+    let extra = [];
+    let nome = [];
+    let id = [];
+    let typeKitchen = [];
+    let prodCounter = 0;
+    let typeRetentive = ""; // Guarda o último valor do filtro de extras, sem extras e todos (na cozinha)
+
+    let extraArray = [];
+    let arrayAux = [];
+    let sandes = productNameSanduichesList;
+    let acomp = productNameAcompanhamentosList;
+    let beb = productNameBebidasList;
+
+    $(document).ready(function () {
+        // Inicia-se com sandes porque só quando o botáo muda é que actualiza, ou seja, a categoria que já lá está tem que ter os produtos correspondes por "default"
+
+        localStorage.clear();
+
+        // firstRun
+
+        if (firstRun == false) {
+
+            let sandes = productNameSanduichesList;
+            for (i = 0; i < sandes.length; i++) {
+                $("#orderProduct").append(`<option value="${sandes[i]}">${sandes[i]}</option>`);
+            }
+            extraArray = productExtraSanduichesList;
+            for (i = 0; i < extraArray.length; i++) {
+                $("#orderExtra").append(`<option value="${extraArray[i]}">${extraArray[i]}</option>`);
+            }
+        }
+
+
+
+        firstRun = true;
+
+        //Quando o selector muda, executa o código a seguir
+        $("#orderCategory").change(function () {
+
+            category = $('#orderCategory option:selected').text();
+
+            $("#orderProduct").html(``);
+            $("#orderExtra").html(``);
+
+            switch (category) {
+
+                case "Sandes":
+
+                    extraArray = productExtraSanduichesList;
+
+                    for (i = 0; i < sandes.length; i++) {
+                        $("#orderProduct").append(`<option value="${sandes[i]}">${sandes[i]}</option>`);
+                    }
+                    $("#orderExtra").append(`<option value="None">None</option>`);
+                    for (i = 0; i < extraArray.length; i++) {
+                        $("#orderExtra").append(`<option value="${extraArray[i]}">${extraArray[i]}</option>`);
+                    }
+                    break;
+
+                case "Acompanhamento":
+
+                    $("#orderProduct").html(``);
+                    for (i = 0; i < acomp.length; i++) {
+                        $("#orderProduct").append(`<option value="${acomp[i]}">${acomp[i]}</option>`);
+                        $("#orderExtra").html(``);
+                    }
+
+                    break;
+
+                case "Bebida":
+
+                    extraArray = productExtraBebidasList;
+                    for (i = 0; i < beb.length; i++) {
+                        $("#orderProduct").append(`<option value="${beb[i]}">${beb[i]}</option>`);
+                        $("#orderExtra").html(``);
+                    }
+                    $("#orderExtra").append(`<option value="None">None</option>`);
+                    for (i = 0; i < extraArray.length; i++) {
+                        $("#orderExtra").append(`<option value="${extraArray[i]}">${extraArray[i]}</option>`);
+                    }
+                    break;
+            }
+        })
+
+        $("#filterOrderStatus").change(function () {
+            let filterOrder = $("#filterOrderStatus option:selected").val();
+
+            arrayAux = [];
+
+            let auxProducts = [];
+            let auxExtras = [];
+
+            switch (filterOrder) {
+
+                case 'all':
+                    arrayAux = activeOrder;
+                    break;
+                case 'extra':
+                    arrayAux = activeOrderExtra;
+                    break;
+                case 'normal':
+                    arrayAux = activeOrderNormal;
+                    break;
+            }
+
+            $("#tbodyOrderStatus").html(``);
+
+
+            for (i in arrayAux) {
+
+                // Estes esvaziamentos de variáveis é para não ficarem os produtos sempre a dar append ao pedido anterior 
+                let auxProducts = [];
+                let auxExtras = [];
+
+                for (j in arrayAux[i].products) {
+
+                    auxProducts.push(arrayAux[i].products[j].product + "<br></br>");
+                    auxExtras.push(arrayAux[i].products[j].extra + "<br></br>");
+                }
+
+                let productsPerOrder = auxProducts.join(" ");
+                let extrasPerOrder = auxExtras.join(" ");
+
+
+                $("#tbodyOrderStatus").append(`
+             <tr>
+                 <td>${arrayAux[i].id}</td>
+                 <td>${productsPerOrder} </td>
+                 <td>${extrasPerOrder} </td>
+             </tr>`);
+            }
+        })
+    }
+    );
+
+
+
+
+</script>
